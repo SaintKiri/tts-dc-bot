@@ -6,5 +6,9 @@ Several of my friends on discord is rather shy and don't really use their mic; t
 
 I have also realized that my JavaScript skill is quite rusty. This is a good opportunity to get some experience. 
 
-## TODO
+## (npm) packages
+- discord.js
+- dotenv
 
+## TODO
+Going through the guide on discord.js \'s official documentation 
