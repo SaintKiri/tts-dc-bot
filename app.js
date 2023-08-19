@@ -35,7 +35,6 @@ client.once(Events.ClientReady, c => {
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
-	console.log(interaction);
 	const command = client.commands.get(interaction.commandName);
 
 	if (!command) {
