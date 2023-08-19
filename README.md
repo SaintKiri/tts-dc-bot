@@ -14,5 +14,4 @@ I have also realized that my JavaScript skill is quite rusty. This is a good opp
 Run the bot with `npm start`  
 
 ## TODO
-1. Clone repo to server
-2. Bot should be able to join the channel after playing the `元神` command
+1. Bot should be able to join the channel after playing the `元神` command
