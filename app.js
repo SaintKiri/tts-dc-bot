@@ -1,12 +1,12 @@
 // Require the necessary discord.js classes
-const {Client, Collection, Events, GatewayIntentBits} = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const fs = require('node:fs');
-const path = require ('node:path');
+const path = require('node:path');
 const dotenv = require('dotenv'); // Using dotenv to get discord bot token
 
 
 // Create a new client instance
-const client = new Client({intents: [GatewayIntentBits.Guilds]});
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 // Parse in slash commands
 client.commands = new Collection();
@@ -47,9 +47,9 @@ client.on(Events.InteractionCreate, async interaction => {
 	} catch (error) {
 		console.error(error);
 		if (interaction.replied || interaction.deferred) {
-			await interaction.followUp({content: 'There was an error while executing this command!', ephemeral: true});
+			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
 		} else {
-			await interaction.reply({content: 'There was an error while executing this command!', ephemeral: true});
+			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
 		}
 	}
 });

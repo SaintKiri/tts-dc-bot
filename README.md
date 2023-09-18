@@ -6,12 +6,13 @@ Several of my friends on discord is rather shy and don't really use their mic; t
 I have also realized that my JavaScript skill is quite rusty. This is a good opportunity to get some experience. 
 
 ## (npm) packages
-- discord.js
-- dotenv
+- discord.js (`npm install discord.js`)
+- dotenv (`npm install discord.js`)
 
 ## Notes
-[discord.js guide](discordjs.guide)  
+[discord.js guide](https://discordjs.guide)  
 Run the bot with `npm start`  
+All credential of the bot will be stored in the `.env` file. DO NOT SHARE!  
 
 ## TODO
 1. Bot should be able to join the channel after playing the `元神` command
