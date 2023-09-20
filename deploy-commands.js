@@ -1,4 +1,4 @@
-const {REST, Routes} = require('discord.js');
+const { REST, Routes } = require('discord.js');
 const dotenv = require('dotenv'); // Using dotenv to get discord bot token
 const fs = require('node:fs');
 const path = require('node:path');
@@ -22,13 +22,13 @@ for (const file of commandFiles) {
 dotenv.config();
 const rest = new REST().setToken(process.env.DISCORD_TOKEN);
 
-(async() => {
+(async () => {
 	try {
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
 		const data = await rest.put(
 			Routes.applicationCommands(process.env.clientId),
-			{body: commands},
+			{ body: commands },
 		);
 
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);

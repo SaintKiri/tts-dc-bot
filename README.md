@@ -8,6 +8,8 @@ I have also realized that my JavaScript skill is quite rusty. This is a good opp
 ## (npm) packages
 - discord.js (`npm install discord.js`)
 - dotenv (`npm install discord.js`)
+- @discordjs/voice (`npm install @discordjs/voice libsodium-wrappers`)
+- @discordjs/opus (`npm install @discordjs/opus`)
 
 ## Notes
 [discord.js guide](https://discordjs.guide)  
