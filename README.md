@@ -10,6 +10,7 @@ I have also realized that my JavaScript skill is quite rusty. This is a good opp
 - dotenv (`npm install dotenv`)
 - @discordjs/voice (`npm install @discordjs/voice libsodium-wrappers`)
 - @discordjs/opus (`npm install @discordjs/opus`)
+- sodium (`npm install sodium`)
 
 ## Notes
 [discord.js guide](https://discordjs.guide)  
