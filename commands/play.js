@@ -23,47 +23,53 @@ module.exports = {
 				.setName("song")
 				.setDescription("play a song from url")
 				.addStringOption(option =>
-					option
-						.setName("url")
+					option.setName("url")
 						.setDescription("url of the song")
 						.setRequired(true)
 				)
 		),
 	async execute(interaction, client) {
-		if (!interaction.member) {
+		if (!interaction.member.voice.channel) {
 			return interaction.reply("Please join a voice channel to use this command");
 		}
 
-		const queue = await client.player.createQueue(interaction.guild);
+		const player = createAudioPlayer();
 
-		if (!queue.connection) await queue.connect(interaction.member.voice.channel);
 
-		if (interaction.options.getSubcommand() === "song") {
-			let url = interaction.options.getString("url");
+		// Cleanup
+		player.stop();
 
-			const result = await client.player.search(url, {
-				requestedBy: interaction.user,
-				searchEngine: QueryType.YOUTUBE_VIDEO,
-			});
+		//FIXME: The following code is copied, change accordingly
+		// const queue = await client.player.createQueue(interaction.guild);
 
-			if (result.tracks.length === 0) {
-				await interaction.reply("no results found");
-				return;
-			}
+		// if (!queue.connection) await queue.connect(interaction.member.voice.channel);
 
-			const song = result.tracks[0];
-			await queue.addTrack(song);
+		// if (interaction.options.getSubcommand() === "song") {
+		// 	let url = interaction.options.getString("url");
 
-			let embed = new EmbedBuilder()
-				.setDescription(`Added **[${song.title}](${song.url})** to the queue.`)
-				.setThumbnail(song.thumbnail)
-				.setFooter({ text: `Duration: ${song.duration}` });
-		}
+		// 	const result = await client.player.search(url, {
+		// 		requestedBy: interaction.user,
+		// 		searchEngine: QueryType.YOUTUBE_VIDEO,
+		// 	});
 
-		if (!queue.playing) await queue.play();
+		// 	if (result.tracks.length === 0) {
+		// 		await interaction.reply("no results found");
+		// 		return;
+		// 	}
 
-		await interaction({
-			embed: [embed],
-		});
+		// 	const song = result.tracks[0];
+		// 	await queue.addTrack(song);
+
+		// 	let embed = new EmbedBuilder()
+		// 		.setDescription(`Added **[${song.title}](${song.url})** to the queue.`)
+		// 		.setThumbnail(song.thumbnail)
+		// 		.setFooter({ text: `Duration: ${song.duration}` });
+		// }
+
+		// if (!queue.playing) await queue.play();
+
+		// await interaction({
+		// 	embed: [embed],
+		// });
 	},
 };
