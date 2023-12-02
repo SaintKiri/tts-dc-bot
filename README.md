@@ -21,7 +21,6 @@ Run the bot with `npm start`
 All credential of the bot will be stored in the `.env` file. DO NOT SHARE!  
 
 ## TODO
-1. Some commands are duplicated
-2. Localize `server.js` and `user.js`
-3. Bot should be able to join the channel after playing the `元神` command
-4. https://youtu.be/3Iegimr8Qc0?si=RUkbAAF65-L8mLGV
+1. Localize `server.js` and `user.js`
+2. Bot should be able to join the channel after playing the `元神` command
+3. https://youtu.be/3Iegimr8Qc0?si=RUkbAAF65-L8mLGV
