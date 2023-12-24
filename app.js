@@ -1,4 +1,3 @@
-// Require the necessary discord.js classes
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -6,7 +5,12 @@ const dotenv = require('dotenv'); // Using dotenv to get discord bot token
 
 
 // Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [
+	GatewayIntentBits.Guilds,
+	GatewayIntentBits.GuildMessages,
+	GatewayIntentBits.MessageContent,
+	GatewayIntentBits.GuildVoiceStates,
+] });
 
 // Parse in slash commands
 client.commands = new Collection();
@@ -42,6 +46,8 @@ client.on(Events.InteractionCreate, async interaction => {
 		return;
 	}
 
+	await interaction.deferReply();
+
 	try {
 		await command.execute(interaction);
 	} catch (error) {
@@ -53,6 +59,8 @@ client.on(Events.InteractionCreate, async interaction => {
 		}
 	}
 });
+
+module.exports = client;
 
 
 // Log in with client token
