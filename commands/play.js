@@ -39,7 +39,7 @@ module.exports = {
 		// Cleanup
 		player.stop();
 
-		//FIXME: The following code is copied, change accordingly
+		// FIXME: The following code is copied, change accordingly
 		// const queue = await client.player.createQueue(interaction.guild);
 
 		// if (!queue.connection) await queue.connect(interaction.member.voice.channel);

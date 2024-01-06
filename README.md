@@ -6,6 +6,7 @@ Several of my friends on discord is rather shy and don't really use their mic; t
 I have also realized that my JavaScript skill is quite rusty. This is a good opportunity to get some experience. 
 
 ## Invitation
+<!-- TODO: Update this link later -->
 [link](https://discord.com/api/oauth2/authorize?client_id=1056897753126543392&permissions=4398049658944&scope=bot)
 
 ## (npm) packages
@@ -21,6 +22,5 @@ Run the bot with `npm start`
 All credential of the bot will be stored in the `.env` file. DO NOT SHARE!  
 
 ## TODO
-1. Localize `server.js` and `user.js`
-2. Bot should be able to join the channel after playing the `元神` command
-3. https://youtu.be/3Iegimr8Qc0?si=RUkbAAF65-L8mLGV
+1. Bot should be able to join the channel after playing the `元神` command
+2. https://youtu.be/3Iegimr8Qc0?si=RUkbAAF65-L8mLGV
