@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { createAudioPlayer, joinVoiceChannel, generateDependencyReport } = require('@discordjs/voice');
+const { createAudioPlayer, joinVoiceChannel } = require('@discordjs/voice');
 
 // Show dependencies
 // console.log(generateDependencyReport());
@@ -28,48 +28,6 @@ module.exports = {
 						.setRequired(true)
 				)
 		),
-	async execute(interaction, client) {
-		if (!interaction.member.voice.channel) {
-			return interaction.reply("Please join a voice channel to use this command");
-		}
-
-		const player = createAudioPlayer();
-
-
-		// Cleanup
-		player.stop();
-
-		// FIXME: The following code is copied, change accordingly
-		// const queue = await client.player.createQueue(interaction.guild);
-
-		// if (!queue.connection) await queue.connect(interaction.member.voice.channel);
-
-		// if (interaction.options.getSubcommand() === "song") {
-		// 	let url = interaction.options.getString("url");
-
-		// 	const result = await client.player.search(url, {
-		// 		requestedBy: interaction.user,
-		// 		searchEngine: QueryType.YOUTUBE_VIDEO,
-		// 	});
-
-		// 	if (result.tracks.length === 0) {
-		// 		await interaction.reply("no results found");
-		// 		return;
-		// 	}
-
-		// 	const song = result.tracks[0];
-		// 	await queue.addTrack(song);
-
-		// 	let embed = new EmbedBuilder()
-		// 		.setDescription(`Added **[${song.title}](${song.url})** to the queue.`)
-		// 		.setThumbnail(song.thumbnail)
-		// 		.setFooter({ text: `Duration: ${song.duration}` });
-		// }
-
-		// if (!queue.playing) await queue.play();
-
-		// await interaction({
-		// 	embed: [embed],
-		// });
+	async execute(interaction) {
 	},
 };
