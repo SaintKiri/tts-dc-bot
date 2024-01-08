@@ -15,6 +15,7 @@ I have also realized that my JavaScript skill is quite rusty. This is a good opp
 - @discordjs/voice (`npm install @discordjs/voice`)
 - @discordjs/opus (`npm install @discordjs/opus`)
 - libsodium (`npm install libsodium-wrappers`)
+- axios (`npm install axios`)
 
 ## Notes
 [discord.js guide](https://discordjs.guide)  

@@ -13,31 +13,20 @@ module.exports = {
 			return interaction.reply('You need to be in a voice channel to use this command.');
 		}
 
-		console.log('Establishing connection');
 		const connection = joinVoiceChannel({
 			channelId: authorVoiceChannel.id,
 			guildId: authorVoiceChannel.guild.id,
 			adapterCreator: authorVoiceChannel.guild.voiceAdapterCreator,
 		});
 
-		console.log('waiting for love');
 		try {
 			await entersState(connection, VoiceConnectionStatus.Ready, 10_000);
-			console.log('come around');
-
-			connection.on(VoiceConnectionStatus.Ready, () => {
-				console.log('Voice connection ready!');
-			});
 
 			const player = createAudioPlayer();
 			const resource = createAudioResource(join(__dirname, 'monday-left-me-broken.mp3'));
 
 			player.play(resource);
 			connection.subscribe(player);
-
-			player.on(AudioPlayerStatus.Playing, () => {
-				console.log('Playing audio!');
-			});
 
 			return interaction.reply(`Joined: ${authorVoiceChannel.name}`);
 		} catch (error) {
