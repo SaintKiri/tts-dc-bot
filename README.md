@@ -24,4 +24,3 @@ All credential of the bot will be stored in the `.env` file. DO NOT SHARE!
 
 ## TODO
 1. Bot should be able to join the channel after playing the `元神` command
-2. https://youtu.be/3Iegimr8Qc0?si=RUkbAAF65-L8mLGV
