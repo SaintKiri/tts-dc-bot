@@ -14,7 +14,8 @@
 		"axios": "^1.6.5",
 		"discord.js": "^14.14.1",
 		"dotenv": "^16.3.1",
-		"libsodium-wrappers": "^0.7.13"
+		"libsodium-wrappers": "^0.7.13",
+		"node-youtube-music": "^0.10.3"
 	},
 	"repository": {
 		"type": "git",

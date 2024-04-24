@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { joinVoiceChannel, createAudioPlayer, createAudioResource, entersState, VoiceConnectionStatus, AudioPlayerStatus} = require('@discordjs/voice');
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, entersState, VoiceConnectionStatus,} = require('@discordjs/voice');
 // const { createReadStream } = require('node:fs'); // might be neede for non-mp3 files, also reference https://discordjs.guide/voice/audio-resources.html#cheat-sheet
 const { join } = require('node:path');
 
