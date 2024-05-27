@@ -1,12 +1,12 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { joinVoiceChannel, createAudioPlayer, createAudioResource, entersState, VoiceConnectionStatus,} = require('@discordjs/voice');
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, entersState, VoiceConnectionStatus, } = require('@discordjs/voice');
 // const { createReadStream } = require('node:fs'); // might be neede for non-mp3 files, also reference https://discordjs.guide/voice/audio-resources.html#cheat-sheet
 const { join } = require('node:path');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-	.setName('join')
-	.setDescription('Let me IN!!!!'),
+		.setName('join')
+		.setDescription('Let me IN!!!!'),
 	async execute(interaction) {
 		const authorVoiceChannel = interaction.member?.voice.channel;
 		if (!authorVoiceChannel) {
@@ -23,7 +23,7 @@ module.exports = {
 			await entersState(connection, VoiceConnectionStatus.Ready, 10_000);
 
 			const player = createAudioPlayer();
-			const resource = createAudioResource(join(__dirname, 'monday-left-me-broken.mp3'));
+			const resource = createAudioResource(join(__dirname + '/sounds/', 'monday-left-me-broken.mp3'));
 
 			player.play(resource);
 			connection.subscribe(player);
