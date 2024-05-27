@@ -1,20 +1,20 @@
-const { REST, Routes } = require("discord.js");
-const dotenv = require("dotenv"); // Using dotenv to get discord bot token
-const fs = require("node:fs");
-const path = require("node:path");
+const { REST, Routes } = require('discord.js');
+const dotenv = require('dotenv'); // Using dotenv to get discord bot token
+const fs = require('node:fs');
+const path = require('node:path');
 
 const commands = [];
 // Parse in all commands
-const commandsPath = path.join(__dirname, "commands");
+const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs
   .readdirSync(commandsPath)
-  .filter((file) => file.endsWith(".js"));
+  .filter((file) => file.endsWith('.js'));
 
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
   const command = require(filePath);
   // Set a new item in the Collection with the key as the command name and the value as the exported module
-  if ("data" in command && "execute" in command) {
+  if ('data' in command && 'execute' in command) {
     commands.push(command.data.toJSON());
   } else {
     console.log(
