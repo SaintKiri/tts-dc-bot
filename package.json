@@ -10,12 +10,12 @@
 	"license": "ISC",
 	"dependencies": {
 		"@discordjs/opus": "^0.9.0",
-		"@discordjs/voice": "^0.16.1",
+		"@discordjs/voice": "^0.17.0",
 		"axios": "^1.6.5",
+		"discord-player": "^6.6.9",
 		"discord.js": "^14.14.1",
 		"dotenv": "^16.3.1",
-		"libsodium-wrappers": "^0.7.13",
-		"node-youtube-music": "^0.10.3"
+		"libsodium-wrappers": "^0.7.13"
 	},
 	"repository": {
 		"type": "git",

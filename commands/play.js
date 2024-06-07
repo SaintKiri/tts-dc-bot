@@ -7,8 +7,7 @@ const {
   VoiceConnectionStatus,
   AudioPlayerStatus,
 } = require('@discordjs/voice');
-
-require('dotenv').config();
+const { Player } = require('discord-player');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -37,13 +36,9 @@ module.exports = {
         ),
     ),
   async execute(interaction) {
-    // https://github.com/steffenkabus/node-youtube-music
+    // https://www.npmjs.com/package/discord-player
+    // TODO: https://discord-player.js.org/guide/welcome/welcome
+    // https://www.youtube.com/watch?v=fN29HIaoHLU
 
-    // TODO: download audio at url
-    const musics = await searchMusics('Never gonna give you up');
-
-    // TODO: play audio
-
-    return interaction.reply(`Playing ${retString}`);
   },
 };
