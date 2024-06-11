@@ -2,6 +2,7 @@ const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
 const dotenv = require('dotenv'); // Using dotenv to get discord bot token
+const { Player } = require('discord-player');
 
 // Create a new client instance
 const client = new Client({
@@ -11,6 +12,14 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildVoiceStates,
   ],
+});
+
+// Initiate player
+client.player = new Player(client, {
+  ytdlOptions: {
+    quality: 'highestaudio',
+    highWaterMark: 1 << 25,
+  },
 });
 
 // Parse in slash commands
@@ -39,31 +48,25 @@ client.once(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
+// TODO: Need to debug the `ECONNRESET` error
+// https://discordjs.guide/popular-topics/errors.html#types-of-errors
+
 // Respond to command
 client.on(Events.InteractionCreate, async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   const command = client.commands.get(interaction.commandName);
-
   if (!command) {
     console.error(`No command matching ${interaction.commandName} was found.`);
     return;
   }
 
-  // await interaction.deferReply();
-
   try {
-    await command.execute(interaction);
+    await command.execute({ client, interaction });
   } catch (error) {
     console.error(error);
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp({
-        content:
-          'There was an error while executing this command! (Printed to console)',
-        ephemeral: true,
-      });
-    } else {
-      await interaction.reply({
         content:
           'There was an error while executing this command! (Printed to console)',
         ephemeral: true,

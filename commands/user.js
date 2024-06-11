@@ -4,7 +4,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('user')
     .setDescription('Provies information about the user.'),
-  async execute(interaction) {
+  async execute({ interaction }) {
     // interaction.user = object representing the user who ran the command
     // interaction.member = guildmember object counterpart of ^
     await interaction.reply(

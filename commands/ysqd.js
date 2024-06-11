@@ -12,7 +12,7 @@ module.exports = {
       'en-US': 'Launch!',
       ja: '起動',
     }),
-  async execute(interaction) {
+  async execute({ interaction }) {
     const locales = {
       'en-US': 'Launch!',
       ja: '起動',

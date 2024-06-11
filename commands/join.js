@@ -13,7 +13,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('join')
     .setDescription('Let me IN!!!!'),
-  async execute(interaction) {
+  async execute({ interaction }) {
     const authorVoiceChannel = interaction.member?.voice.channel;
     if (!authorVoiceChannel) {
       return interaction.reply(
