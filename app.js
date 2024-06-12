@@ -20,7 +20,12 @@ client.player = new Player(client, {
     quality: 'highestaudio',
     highWaterMark: 1 << 25,
   },
+  skipFFmpeg: false, // Avoid ECONNRESET
 });
+// TODO: Sound is slightly off when compared to that of native YouTube videos
+// Possible causes:
+// 1. Gain being too high
+// 2. Low bitrate
 
 // Parse in slash commands
 client.commands = new Collection();
@@ -48,8 +53,12 @@ client.once(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
-// TODO: Need to debug the `ECONNRESET` error
-// https://discordjs.guide/popular-topics/errors.html#types-of-errors
+client.on(Events.ShardError, (error) => {
+  if (error.code === 'ECONNRESET') {
+    console.error('A websocket connection encountered an error: ', error);
+    return;
+  }
+});
 
 // Respond to command
 client.on(Events.InteractionCreate, async (interaction) => {

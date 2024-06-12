@@ -57,15 +57,27 @@ module.exports = {
     // });
 
     // Parse user input
-    let result;
     switch (interaction.options.getSubcommand()) {
       case 'url':
         let url = interaction.options.getString('url');
+
+        await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
 
         result = await client.player.search(url, {
           requestedBy: interaction.user,
           searchEngine: QueryType.YOUTUBE_VIDEO,
         });
+        break;
+      case 'song':
+        let searchterms = interaction.options.getString('searchterms');
+
+        await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
+
+        result = await client.player.search(searchterms, {
+          requestedBy: interaction.user,
+          searchEngine: QueryType.AUTO,
+        });
+        break;
     }
     if (result.isEmpty()) return interaction.reply('No results');
 
@@ -74,12 +86,13 @@ module.exports = {
     await queue.addTrack(song);
     if (!queue.isPlaying()) await queue.play(song);
 
+    // Return song info
     let embed = new EmbedBuilder();
     embed
-      .setDescription(`Added **${song.title}** to the queue`)
+      .setDescription(`Added **${song.title}** from ${song.url} to the queue`)
       .setThumbnail(song.thumbnail)
       .setFooter({ text: `Duration: ${song.duration}` });
-    return interaction.reply({ embeds: [embed] });
+    return interaction.editReply({ embeds: [embed] });
 
     // TODO: https://discord-player.js.org/guide/welcome/welcome
     // https://www.youtube.com/watch?v=fN29HIaoHLU

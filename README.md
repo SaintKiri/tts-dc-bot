@@ -34,4 +34,3 @@ All credential of the bot will be stored in the `.env` file. DO NOT SHARE!
 
 1. Bot should be able to join the channel after playing the `元神` command
 2. `Skip` command is needed
-3. Sound is slightly off when compared to that of native YouTube videos 
