@@ -16,17 +16,8 @@ const client = new Client({
 
 // Initiate player
 client.player = new Player(client, {
-  ytdlOptions: {
-    quality: 'highestaudio',
-    highWaterMark: 1 << 25,
-  },
   skipFFmpeg: false, // Avoid ECONNRESET
 });
-// FIXME: Sound is slightly off when compared to that of native YouTube videos
-// Possible causes:
-// 1. Gain being too high
-// 2. Low bitrate
-// FIXME: On MacOS discord client, the right speaker plays louder than the left
 
 // Parse in slash commands
 client.commands = new Collection();
