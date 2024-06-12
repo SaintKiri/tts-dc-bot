@@ -22,10 +22,11 @@ client.player = new Player(client, {
   },
   skipFFmpeg: false, // Avoid ECONNRESET
 });
-// TODO: Sound is slightly off when compared to that of native YouTube videos
+// FIXME: Sound is slightly off when compared to that of native YouTube videos
 // Possible causes:
 // 1. Gain being too high
 // 2. Low bitrate
+// FIXME: On MacOS discord client, the right speaker plays louder than the left
 
 // Parse in slash commands
 client.commands = new Collection();
@@ -51,13 +52,6 @@ for (const file of commandFiles) {
 // Check client status
 client.once(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
-});
-
-client.on(Events.ShardError, (error) => {
-  if (error.code === 'ECONNRESET') {
-    console.error('A websocket connection encountered an error: ', error);
-    return;
-  }
 });
 
 // Respond to command

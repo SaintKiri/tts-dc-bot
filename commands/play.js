@@ -4,8 +4,6 @@ const {
   createAudioPlayer,
   createAudioResource,
   entersState,
-  VoiceConnectionStatus,
-  AudioPlayerStatus,
 } = require('@discordjs/voice');
 const { Player, QueryType } = require('discord-player');
 
@@ -82,9 +80,12 @@ module.exports = {
     if (result.isEmpty()) return interaction.reply('No results');
 
     const song = result.tracks[0];
+    console.log('We have:', song.title);
 
     await queue.addTrack(song);
+    console.log('Added to queue');
     if (!queue.isPlaying()) await queue.play(song);
+    console.log('Now playing');
 
     // Return song info
     let embed = new EmbedBuilder();
