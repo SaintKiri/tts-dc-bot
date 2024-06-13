@@ -12,7 +12,13 @@ const { join } = require('node:path');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('join')
-    .setDescription('Let me IN!!!!'),
+    .setNameLocalization({
+      'zh-CN': '来',
+    })
+    .setDescription('Let me IN!!!!')
+    .setNameLocalization({
+      'zh-CN': '让我康康!',
+    }),
   async execute({ interaction }) {
     const authorVoiceChannel = interaction.member?.voice.channel;
     if (!authorVoiceChannel) {
