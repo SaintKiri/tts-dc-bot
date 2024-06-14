@@ -12,11 +12,11 @@ const { join } = require('node:path');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('join')
-    .setNameLocalization({
+    .setNameLocalizations({
       'zh-CN': '来',
     })
     .setDescription('Let me IN!!!!')
-    .setNameLocalization({
+    .setDescriptionLocalizations({
       'zh-CN': '让我康康!',
     }),
   async execute({ interaction }) {

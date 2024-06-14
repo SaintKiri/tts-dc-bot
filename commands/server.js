@@ -3,11 +3,11 @@ const { SlashCommandBuilder } = require('discord.js');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('server')
-    .setNameLocalization({
+    .setNameLocalizations({
       'zh-CN': '服务器',
     })
     .setDescription('Display info about the server.')
-    .setNameLocalization({
+    .setNameLocalizations({
       'zh-CN': '显示服务器信息',
     }),
   async execute({ interaction }) {

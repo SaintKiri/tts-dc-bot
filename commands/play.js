@@ -10,26 +10,36 @@ const { Player, QueryType } = require('discord-player');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('play')
+    .setNameLocalizations({ 'zh-CN': '播放' })
     .setDescription('Play music')
+    .setDescriptionLocalizations({ 'zh-CN': '播放音乐' })
     .addSubcommand((subcommand) =>
       subcommand
         .setName('song')
+        .setNameLocalizations({ 'zh-CN': '歌曲' })
         .setDescription('searches for a song')
+        .setDescriptionLocalizations({ 'zh-CN': '搜索音乐' })
         .addStringOption((option) =>
           option
             .setName('searchterms')
+            .setNameLocalizations({ 'zh-CN': '搜索词' })
             .setDescription('search keywords')
+            .setNameLocalizations({ 'zh-CN': '关键字' })
             .setRequired(true),
         ),
     )
     .addSubcommand((subcommand) =>
       subcommand
         .setName('url')
+        .setNameLocalizations({ 'zh-CN': '网址' })
         .setDescription('play a song from url')
+        .setDescriptionLocalizations({ 'zh-CN': '从网址播放音乐' })
         .addStringOption((option) =>
           option
             .setName('url')
+            .setNameLocalizations({ 'zh-CN': '网址' })
             .setDescription('url of the song')
+            .setDescriptionLocalizations({ 'zh-CN': '音乐网址' })
             .setRequired(true),
         ),
     ),
@@ -46,7 +56,7 @@ module.exports = {
     await client.player.extractors.loadDefault();
 
     const queue = await client.player.nodes.create(interaction.guild);
-    if (!queue.connection) await queue.connect(authorVoiceChannel);
+    await queue.connect(authorVoiceChannel);
 
     // NOTE: Might be needed later:
     //
