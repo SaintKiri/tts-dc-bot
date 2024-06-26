@@ -19,6 +19,11 @@ client.player = new Player(client, {
   skipFFmpeg: false, // Avoid ECONNRESET
 });
 
+// TODO: Test this
+client.player.addListener('stateChange', (oldS, newS) => {
+  if (newS.status == 'idle') console.log('Song finished');
+});
+
 // Parse in slash commands
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');

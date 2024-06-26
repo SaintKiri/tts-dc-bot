@@ -55,6 +55,7 @@ module.exports = {
     // NOTE: Might need to exclude YouTube since they might ban the bot
     await client.player.extractors.loadDefault();
 
+    // Create queue of songs
     const queue = await client.player.nodes.create(interaction.guild);
     await queue.connect(authorVoiceChannel);
 
@@ -96,6 +97,8 @@ module.exports = {
     console.log('Added to queue');
     if (!queue.isPlaying()) await queue.play(song);
     console.log('Now playing');
+
+    // FIXME: Looping, test w/ multiple songs
 
     // Return song info
     let embed = new EmbedBuilder();
