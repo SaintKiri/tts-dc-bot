@@ -4,8 +4,10 @@ const {
   createAudioPlayer,
   createAudioResource,
   entersState,
+  VoiceConnectionStatus,
 } = require('@discordjs/voice');
-const { Player, QueryType } = require('discord-player');
+const execSync = require('child_process').execSync;
+const { join } = require('node:path');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -51,13 +53,11 @@ module.exports = {
       );
     }
 
-    // Designate the search engine
-    // NOTE: Might need to exclude YouTube since they might ban the bot
-    await client.player.extractors.loadDefault();
-
-    // Create queue of songs
-    const queue = await client.player.nodes.create(interaction.guild);
-    await queue.connect(authorVoiceChannel);
+    const connection = joinVoiceChannel({
+      channelId: authorVoiceChannel.id,
+      guildId: authorVoiceChannel.guild.id,
+      adapterCreator: authorVoiceChannel.guild.voiceAdapterCreator,
+    });
 
     // NOTE: Might be needed later:
     //
@@ -72,43 +72,38 @@ module.exports = {
 
         await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
 
-        result = await client.player.search(url, {
-          requestedBy: interaction.user,
-          searchEngine: QueryType.YOUTUBE_VIDEO,
-        });
+        const output = execSync(
+          `yt-dlp -t aac ${url} -o "downloaded.%(ext)s"`,
+        ).toString();
+        console.log(output);
+
         break;
       case 'song':
         let searchterms = interaction.options.getString('searchterms');
 
         await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
 
-        result = await client.player.search(searchterms, {
-          requestedBy: interaction.user,
-          searchEngine: QueryType.AUTO,
-        });
+        // TODO: implement
+
         break;
     }
-    if (result.isEmpty()) return interaction.reply('No results');
 
-    const song = result.tracks[0];
-    console.log('We have:', song.title);
+    // Target audio file should exist at this point
 
-    await queue.addTrack(song);
-    console.log('Added to queue');
-    if (!queue.isPlaying()) await queue.play(song);
-    console.log('Now playing');
+    // Connect and join channel
+    try {
+      await entersState(connection, VoiceConnectionStatus.Ready, 10_000);
 
-    // FIXME: Looping, test w/ multiple songs
+      const player = createAudioPlayer();
+      const resource = createAudioResource('./downloaded.m4a');
 
-    // Return song info
-    let embed = new EmbedBuilder();
-    embed
-      .setDescription(`Added **${song.title}** from ${song.url} to the queue`)
-      .setThumbnail(song.thumbnail)
-      .setFooter({ text: `Duration: ${song.duration}` });
-    return interaction.editReply({ embeds: [embed] });
+      player.play(resource);
+      connection.subscribe(player);
 
-    // TODO: https://discord-player.js.org/guide/welcome/welcome
-    // https://www.youtube.com/watch?v=fN29HIaoHLU
+      return interaction.followUp(`Playing audio`);
+    } catch (error) {
+      console.error(error);
+      return interaction.followUp('Play command is at fault!');
+    }
   },
 };
