@@ -1,8 +1,8 @@
-const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
-const fs = require("node:fs");
-const path = require("node:path");
-const dotenv = require("dotenv"); // Using dotenv to get discord bot token
-const { Player } = require("discord-player");
+const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const fs = require('node:fs');
+const path = require('node:path');
+const dotenv = require('dotenv'); // Using dotenv to get discord bot token
+const { Player } = require('discord-player');
 
 // Create a new client instance
 const client = new Client({
@@ -15,27 +15,29 @@ const client = new Client({
 });
 
 // Initiate player
-client.player = new Player(client, {
+const player = new Player(client, {
   skipFFmpeg: false, // Avoid ECONNRESET
 });
 
-// TODO: Test this
-client.player.addListener("stateChange", (oldS, newS) => {
-  if (newS.status == "idle") console.log("Song finished");
+player.extractors.loadDefault();
+
+// FIXME: not working
+player.addListener('stateChange', (oldS, newS) => {
+  if (newS.status === client.player.status) console.log('Song finished');
 });
 
 // Parse in slash commands
 client.commands = new Collection();
-const commandsPath = path.join(__dirname, "commands");
+const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs
   .readdirSync(commandsPath)
-  .filter((file) => file.endsWith(".js"));
+  .filter((file) => file.endsWith('.js'));
 
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
   const command = require(filePath);
   // Set a new item in the Collection with the key as the command name and the value as the exported module
-  if ("data" in command && "execute" in command) {
+  if ('data' in command && 'execute' in command) {
     console.log(`Added ${command.data.name}.`);
     client.commands.set(command.data.name, command);
   } else {
@@ -67,7 +69,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp({
         content:
-          "There was an error while executing this command! (Printed to console)",
+          'There was an error while executing this command! (Printed to console)',
         ephemeral: true,
       });
     }

@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "Text-to-Speech Discord Bot",
 	"main": "app.js",
+	"type": "commonjs",
 	"scripts": {
 		"start": "node deploy-commands.js && node app.js"
 	},

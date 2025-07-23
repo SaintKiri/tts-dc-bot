@@ -16,17 +16,18 @@ I have also realized that my JavaScript skill is quite rusty. This is a good opp
 
 ## (npm) packages
 
-- discord.js (`npm install discord.js`)
-- dotenv (`npm install dotenv`)
-- @discordjs/voice (`npm install @discordjs/voice`)
-- @discordjs/opus (`npm install discordjs/opus`)
-- libsodium (`npm install libsodium-wrappers`)
-- axios (`npm install axios`)
+Prefix `yarn add ` to the following to install them
+
+- discord.js
+- dotenv
+- @discordjs/voice
+- @discordjs/opus
+- libsodium
+- axios
 
 ## Notes
 
 [discord.js guide](https://discordjs.guide)  
-[discord-player guide](https://discord-player.js.org/guide/welcome/welcome)
 Run the bot with `npm start`  
 All credential of the bot will be stored in the `.env` file. DO NOT SHARE!
 

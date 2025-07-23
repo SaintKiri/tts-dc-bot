@@ -6,8 +6,9 @@ const {
   entersState,
   VoiceConnectionStatus,
 } = require('@discordjs/voice');
+const { useMainPlayer, QueryType } = require('discord-player');
+const { join } = require('path');
 const execSync = require('child_process').execSync;
-const { join } = require('node:path');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -59,6 +60,11 @@ module.exports = {
       adapterCreator: authorVoiceChannel.guild.voiceAdapterCreator,
     });
 
+    const player = useMainPlayer();
+
+    const queue = player.nodes.create(interaction.guild);
+    await queue.connect(authorVoiceChannel);
+
     // NOTE: Might be needed later:
     //
     // player.events.on('playerStart', (queue, track) => {
@@ -69,41 +75,33 @@ module.exports = {
     switch (interaction.options.getSubcommand()) {
       case 'url':
         let url = interaction.options.getString('url');
-
         await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
 
+        interaction.followUp("Working...");
         const output = execSync(
-          `yt-dlp -t aac ${url} -o "downloaded.%(ext)s"`,
+          `yt-dlp -t mp3 ${url} -o "downloaded.%(ext)s"`,
         ).toString();
-        console.log(output);
+
+        const filePath = 'downloaded.mp3';
+        result = await player.play(authorVoiceChannel, filePath, {
+          searchEngine: QueryType.FILE,
+        });
 
         break;
       case 'song':
         let searchterms = interaction.options.getString('searchterms');
-
         await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
 
-        // TODO: implement
-
+        // FIXME: not working
+        result = await player.play(authorVoiceChannel, searchterms, {
+          nodeOptions: {
+            metadata: {
+              channel: interaction.channel
+            },
+          },
+        });
         break;
     }
-
-    // Target audio file should exist at this point
-
-    // Connect and join channel
-    try {
-      await entersState(connection, VoiceConnectionStatus.Ready, 10_000);
-
-      const player = createAudioPlayer();
-      const resource = createAudioResource('./downloaded.m4a');
-
-      player.play(resource);
-      connection.subscribe(player);
-
-      return interaction.followUp(`Playing audio`);
-    } catch (error) {
-      console.error(error);
-      return interaction.followUp('Play command is at fault!');
-    }
+    return interaction.followUp(`${result.track.title}`);
   },
 };
