@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const dotenv = require('dotenv'); // Using dotenv to get discord bot token
 const { Player } = require('discord-player');
+const { execSync } = require('node:child_process');
 
 // Create a new client instance
 const client = new Client({
@@ -21,9 +22,9 @@ const player = new Player(client, {
 
 player.extractors.loadDefault();
 
-// FIXME: not working
-player.addListener('stateChange', (oldS, newS) => {
-  if (newS.status === client.player.status) console.log('Song finished');
+// TODO: test this
+player.events.on('emptyQueue', (queue) => {
+  execSync(`rm *.mp3`);
 });
 
 // Parse in slash commands

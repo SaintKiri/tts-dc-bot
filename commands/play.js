@@ -102,6 +102,6 @@ module.exports = {
         });
         break;
     }
-    return interaction.followUp(`${result.track.title}`);
+    return interaction.followUp(`Playing: ${result.track.title}`);
   },
 };

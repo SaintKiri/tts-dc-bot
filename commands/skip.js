@@ -1,7 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { getVoiceConnection } = require('@discordjs/voice');
-// const { createReadStream } = require('node:fs'); // might be neede for non-mp3 files, also reference https://discordjs.guide/voice/audio-resources.html#cheat-sheet
-const { join } = require('node:path');
+const { useQueue } = require('discord-player');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -21,19 +20,15 @@ module.exports = {
       );
     }
 
-    try {
-      // FIXME: connection is undefined
-      const connection = getVoiceConnection(authorVoiceChannel);
-
-      const subscription = connection.subscribe(player);
-      subscription.unsubscribe();
-
-      connection.destroy();
-
-      return interaction.reply('Skipping current track');
-    } catch (error) {
-      console.error(error);
-      return interaction.reply('Error joining voice channel!');
+    const queue = useQueue(interaction.guild.id);
+    if (!queue) {
+      return interaction.reply('No active player session');
     }
+    if (!queue.isPlaying()) {
+      return interaction.reply('No track playing');
+    }
+
+    queue.node.skip();
+    return interaction.reply('Current track skipped!');
   },
 };
