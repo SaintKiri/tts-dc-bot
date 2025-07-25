@@ -71,7 +71,7 @@ module.exports = {
 
         interaction.editReply('Working...');
         const output = execSync(
-          `yt-dlp -t mp3 ${url} -o "downloaded.%(ext)s"`,
+          `yt-dlp ${url}`,
         ).toString();
 
         const filePath = 'downloaded.mp3';
