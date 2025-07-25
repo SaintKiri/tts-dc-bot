@@ -22,7 +22,6 @@ const player = new Player(client, {
 
 player.extractors.loadDefault();
 
-// TODO: test this
 player.events.on('emptyQueue', (queue) => {
   execSync(`rm *.mp3`);
 });

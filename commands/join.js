@@ -6,8 +6,8 @@ const {
   entersState,
   VoiceConnectionStatus,
 } = require('@discordjs/voice');
-// const { createReadStream } = require('node:fs'); // might be neede for non-mp3 files, also reference https://discordjs.guide/voice/audio-resources.html#cheat-sheet
 const { join } = require('node:path');
+const { useMainPlayer, QueryType } = require('discord-player');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -33,16 +33,16 @@ module.exports = {
       adapterCreator: authorVoiceChannel.guild.voiceAdapterCreator,
     });
 
+    const player = useMainPlayer();
+
+    const queue = player.nodes.create(interaction.guild);
+    await queue.connect(authorVoiceChannel);
+
     try {
-      await entersState(connection, VoiceConnectionStatus.Ready, 10_000);
-
-      const player = createAudioPlayer();
-      const resource = createAudioResource(
-        join(__dirname + '/sounds/', 'monday-left-me-broken.mp3'),
-      );
-
-      player.play(resource);
-      connection.subscribe(player);
+      const filePath = join(__dirname + '/sounds/', 'monday-left-me-broken.mp3');
+      result = await player.play(authorVoiceChannel, filePath, {
+        searchEngine: QueryType.FILE,
+      });
 
       return interaction.reply(`Joined: ${authorVoiceChannel.name}`);
     } catch (error) {

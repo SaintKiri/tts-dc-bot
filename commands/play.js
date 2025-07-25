@@ -1,10 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const {
-  joinVoiceChannel,
-  createAudioPlayer,
-  createAudioResource,
-  entersState,
-  VoiceConnectionStatus,
+  joinVoiceChannel
 } = require('@discordjs/voice');
 const { useMainPlayer, QueryType } = require('discord-player');
 const { join } = require('path');
@@ -65,11 +61,7 @@ module.exports = {
     const queue = player.nodes.create(interaction.guild);
     await queue.connect(authorVoiceChannel);
 
-    // NOTE: Might be needed later:
-    //
-    // player.events.on('playerStart', (queue, track) => {
-    //   queue.metadata.channel.send(`Started playing **${track.title}**!`);
-    // });
+    // TODO: implement queue functionality
 
     // Parse user input
     switch (interaction.options.getSubcommand()) {
@@ -77,7 +69,7 @@ module.exports = {
         let url = interaction.options.getString('url');
         await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
 
-        interaction.followUp("Working...");
+        interaction.editReply('Working...');
         const output = execSync(
           `yt-dlp -t mp3 ${url} -o "downloaded.%(ext)s"`,
         ).toString();
@@ -96,12 +88,12 @@ module.exports = {
         result = await player.play(authorVoiceChannel, searchterms, {
           nodeOptions: {
             metadata: {
-              channel: interaction.channel
+              channel: interaction.channel,
             },
           },
         });
         break;
     }
-    return interaction.followUp(`Playing: ${result.track.title}`);
+    return interaction.editReply(`Playing: ${result.track.title}`);
   },
 };
