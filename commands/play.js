@@ -70,11 +70,11 @@ module.exports = {
         await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
 
         interaction.editReply('Working...');
+        const filePath = './downloaded/downloaded.mp4';
         const output = execSync(
-          `yt-dlp ${url}`,
+          `yt-dlp -t mp4 ${url} -o ${filePath}`,
         ).toString();
 
-        const filePath = 'downloaded.mp3';
         result = await player.play(authorVoiceChannel, filePath, {
           searchEngine: QueryType.FILE,
         });

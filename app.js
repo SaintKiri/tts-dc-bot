@@ -22,9 +22,11 @@ const player = new Player(client, {
 
 player.extractors.loadDefault();
 
-player.events.on('emptyQueue' || 'disconnect', (queue) => {
-  execSync(`rm *.mp3`);
-});
+function removeAllDownloads() {
+  execSync(`rm ./downloaded/*`);
+}
+player.events.on('emptyQueue', () => removeAllDownloads());
+player.events.on('disconnect', () => removeAllDownloads());
 
 // Parse in slash commands
 client.commands = new Collection();
