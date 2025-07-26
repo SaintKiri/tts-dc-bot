@@ -63,6 +63,9 @@ module.exports = {
 
     // TODO: implement queue functionality
 
+    // TODO: display information as reply
+    // ffprobe -v quiet -show_format -print_format json [VIDEO]
+
     // Parse user input
     switch (interaction.options.getSubcommand()) {
       case 'url':
@@ -70,9 +73,8 @@ module.exports = {
         await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
 
         interaction.editReply('Working...');
-        const filePath = './downloaded/downloaded.mp4';
         const output = execSync(
-          `yt-dlp -t mp4 ${url} -o ${filePath}`,
+          `cd downloaded; yt-dlp -t mp4 ${url}`,
         ).toString();
 
         result = await player.play(authorVoiceChannel, filePath, {
@@ -81,18 +83,19 @@ module.exports = {
 
         break;
       case 'song':
-        let searchterms = interaction.options.getString('searchterms');
-        await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
+        return interaction.editReply('Unimplemented. Please play by url');
+      // let searchterms = interaction.options.getString('searchterms');
+      // await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
 
-        // FIXME: not working
-        result = await player.play(authorVoiceChannel, searchterms, {
-          nodeOptions: {
-            metadata: {
-              channel: interaction.channel,
-            },
-          },
-        });
-        break;
+      // // FIXME: not working
+      // result = await player.play(authorVoiceChannel, searchterms, {
+      //   nodeOptions: {
+      //     metadata: {
+      //       channel: interaction.channel,
+      //     },
+      //   },
+      // });
+      // break;
     }
     return interaction.editReply(`Playing: ${result.track.title}`);
   },

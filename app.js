@@ -20,6 +20,7 @@ const player = new Player(client, {
   skipFFmpeg: false, // Avoid ECONNRESET
 });
 
+// Load default extractors
 player.extractors.loadDefault();
 
 function removeAllDownloads() {
@@ -27,6 +28,7 @@ function removeAllDownloads() {
 }
 player.events.on('emptyQueue', () => removeAllDownloads());
 player.events.on('disconnect', () => removeAllDownloads());
+// TODO: remove only the played file upon its play completion
 
 // Parse in slash commands
 client.commands = new Collection();
@@ -35,12 +37,13 @@ const commandFiles = fs
   .readdirSync(commandsPath)
   .filter((file) => file.endsWith('.js'));
 
+// Load commmands from file
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
   const command = require(filePath);
   // Set a new item in the Collection with the key as the command name and the value as the exported module
   if ('data' in command && 'execute' in command) {
-    console.log(`Added ${command.data.name}.`);
+    console.log(`Adding ${command.data.name}.`);
     client.commands.set(command.data.name, command);
   } else {
     console.log(
@@ -71,7 +74,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp({
         content:
-          'There was an error while executing this command! (Printed to console)',
+          'There was an error while executing this command! (printed to console)',
         ephemeral: true,
       });
     }
