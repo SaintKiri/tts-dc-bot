@@ -1,7 +1,7 @@
 # tts-dc-bot
 
 Text-to-Speech Discord Bot
-w/ music functionality
+w/ music functionality (via [yt-dlp](https://github.com/yt-dlp/yt-dlp))
 
 ## Motivation
 
@@ -21,7 +21,7 @@ Prefix `yarn add ` to the following to install them
 
 ## Notes
 
-**All credential of the bot will be stored in the `.env` file. DO NOT SHARE!**
+**All credential of the bot will be stored in the `.env` file. DO NOT SHARE!**  
 [discord.js guide](https://discordjs.guide)  
 [discord player documentation](https://discord-player.js.org/docs)  
 [yt-dlp](https://github.com/yt-dlp/yt-dlp)  

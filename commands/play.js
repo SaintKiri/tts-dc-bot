@@ -3,7 +3,8 @@ const {
   joinVoiceChannel
 } = require('@discordjs/voice');
 const { useMainPlayer, QueryType } = require('discord-player');
-const { join } = require('path');
+const { join, relative } = require('path');
+const { readdirSync } = require('fs');
 const execSync = require('child_process').execSync;
 
 module.exports = {
@@ -69,13 +70,16 @@ module.exports = {
     // Parse user input
     switch (interaction.options.getSubcommand()) {
       case 'url':
-        let url = interaction.options.getString('url');
+        const [url, videoID] = sanitizeURL(interaction.options.getString('url')); // TODO: reject invalid url
         await interaction.deferReply(); // Discord requires bot to send acknowledgement within 3 sec
 
-        interaction.editReply('Working...');
+        interaction.editReply('Downloading...');
         const output = execSync(
-          `cd downloaded; yt-dlp -t mp4 ${url}`,
+          `cd downloaded; yt-dlp -t mp4 --add-metadata ${url}`,
         ).toString();
+        console.log(output);
+
+        const filePath = findFilePathByVideoID(videoID); // TODO: reject invalid url
 
         result = await player.play(authorVoiceChannel, filePath, {
           searchEngine: QueryType.FILE,
@@ -100,3 +104,27 @@ module.exports = {
     return interaction.editReply(`Playing: ${result.track.title}`);
   },
 };
+
+function sanitizeURL(url) {
+  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  const videoID = match[1];
+  console.log(match + '\n' + videoID);
+
+  if (!match || !videoID) {
+    return null;
+  }
+
+  return [`https://www.youtube.com/watch?v=${videoID}`, videoID];
+}
+
+function findFilePathByVideoID(videoID) {
+  const downloaded = 'downloaded';
+  const files = readdirSync(downloaded); // Commands are imported to main. Need to look from main's perspective
+  for (const file of files) {
+    if (file.includes(videoID)) {
+      return relative(process.cwd(), join(downloaded, file));
+    }
+  }
+  return null;
+}
