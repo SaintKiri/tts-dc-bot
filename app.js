@@ -24,7 +24,13 @@ const player = new Player(client, {
 player.extractors.loadDefault();
 
 function removeAllDownloads() {
-  execSync(`rm ./downloaded/*`);
+  const downloaded = './downloaded/';
+  fs.readdir(downloaded, (err, files) => {
+    if (err) throw err;
+    for (const file of files) {
+      fs.unlinkSync(downloaded + file);
+    }
+  });
 }
 player.events.on('emptyQueue', () => removeAllDownloads());
 player.events.on('disconnect', () => removeAllDownloads());
