@@ -119,16 +119,17 @@ module.exports = {
     // https://api.bilibili.com/x/web-interface/view?bvid=[videoID] then look for the pic url
     return interaction.editReply(`Playing: ${trackInfo.track.title}`);
   },
+  sanitizeBilibiliURL, sanitizeYouTubeURL, sanitizeURL
 };
 
 function sanitizeBilibiliURL(url) {
-  const regexBB = /^(?:https?:\/\/)?(?:www\.)?(?:bilibili\.com\/video\/(BV[0-9A-Za-z]{10}|av\d+)|b23\.tv\/(BV[0-9A-Za-z]{10}))/;
+  const regexBB = /(?:https?:\/\/)?(?:www\.)?(?:bilibili\.com\/video\/(BV[0-9A-Za-z]{10}|av\d+)|b23\.tv\/(BV[0-9A-Za-z]{10}))/;
   const match = url.match(regexBB);
 
   return (match == null) ? null : [`https://www.bilibili.com/video/${match[1]}`, match[1]];
 }
 function sanitizeYouTubeURL(url) {
-  const regexYT = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const regexYT = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
   const match = url.match(regexYT);
 
   return (match == null) ? null : [`https://www.youtube.com/watch?v=${match[1]}`, match[1]];

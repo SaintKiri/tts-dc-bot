@@ -19,10 +19,15 @@ Prefix `yarn add ` to the following to install them
 - libsodium
 - axios
 
+### Optional
+
+- mocha
+
 ## Notes
 
 **All credential of the bot will be stored in the `.env` file. DO NOT SHARE!**  
 [discord.js guide](https://discordjs.guide)  
 [discord player documentation](https://discord-player.js.org/docs)  
 [yt-dlp](https://github.com/yt-dlp/yt-dlp)  
-Run the bot with `npm start`
+Run the bot with `npm start`  
+Test functions with `npm test`

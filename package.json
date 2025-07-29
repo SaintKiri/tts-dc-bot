@@ -5,7 +5,8 @@
 	"main": "app.js",
 	"type": "commonjs",
 	"scripts": {
-		"start": "node deploy-commands.js && node app.js"
+		"start": "node deploy-commands.js && node app.js",
+		"test": "mocha"
 	},
 	"author": "SaintKiri",
 	"license": "ISC",
@@ -19,6 +20,7 @@
 		"discord.js": "^14.21.0",
 		"dotenv": "^17.2.0",
 		"libsodium-wrappers": "^0.7.15",
+		"mocha": "^11.7.1",
 		"npm": "^11.4.2",
 		"youtube-ext": "^1.1.25"
 	},
