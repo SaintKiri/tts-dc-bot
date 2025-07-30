@@ -30,4 +30,5 @@ Prefix `yarn add ` to the following to install them
 [discord player documentation](https://discord-player.js.org/docs)  
 [yt-dlp](https://github.com/yt-dlp/yt-dlp)  
 Run the bot with `npm start`  
-Test functions with `npm test`
+Test functions with `npm test`  
+Create a 'downloaded' folder if it doesn't exist
