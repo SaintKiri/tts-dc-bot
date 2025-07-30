@@ -7,6 +7,7 @@ const { join, relative } = require('path');
 const { readdirSync } = require('fs');
 const { execSync } = require('child_process');
 const path = require('node:path');
+const { existsSync, mkdirSync } = require('node:fs');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -71,6 +72,11 @@ module.exports = {
     // Parse user input
     switch (interaction.options.getSubcommand()) {
       case 'url':
+        const downloaded = 'downloaded'
+        if (!existsSync(downloaded)) {
+          mkdirSync(downloaded); // Git doesn't track empty folders
+        }
+
         let result = sanitizeURL(interaction.options.getString('url'));
         if (result == null) {
           return interaction.reply("Invalid URL");
@@ -80,7 +86,7 @@ module.exports = {
 
         await interaction.editReply('Downloading...');
         try {
-          execSync(`yt-dlp -t mp4 --add-metadata --embed-thumbnail ${url}`, { cwd: path.join('downloaded') });
+          execSync(`yt-dlp -t mp4 --add-metadata --embed-thumbnail ${url}`, { cwd: path.join(downloaded) });
         } catch (err) {
           // return interaction.editReply('Error while downloading media. Check if the url is correct:' + url);
           const returnEmbed = new EmbedBuilder().setTitle('ERROR: check media URL').setDescription(url).setURL(url);
